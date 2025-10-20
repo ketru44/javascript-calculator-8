@@ -13,16 +13,26 @@ class Parser {
     this.validateCustomDelimiterExpression(expr, requestedDelimiter); 
     return requestedDelimiter; // 2) 커스텀 구분자가 있는 경우 추출하여 해당 구분자 반환
   }
+
   validateCustomDelimiterExpression(origin, target) {
     if(!origin.startsWith("//") || target.length != 1 || !isNaN(target))
       throw new Error("[ERROR]");
   }
-  updateDelimiterSet(customDeli) {
-    this.delimiterSet.add(customDeli);
+
+  splitByDelimitersToNumbers(rawNumbers, delimiterSet) { // 구분자와 섞인 숫자 뭉치를 분리
+    let numberArray= [rawNumbers];
+    delimiterSet.forEach(deli => {
+      numberArray = numberArray.flatMap(el => el.split(deli));
+    });
+    numberArray = numberArray.map(Number);
+    return numberArray;
   }
+
   parseExpressionToNumberList(expression) {
-    const customDelimiter = this.extractCustomDelimiterStrictly(expression);
-    if(customDelimiter) this.updateDelimiterSet(customDelimiter);
+    const customDelimiter = this.extractCustomDelimiterStrictly(expression); // 커스텀 구분자 추출
+    if(customDelimiter) this.delimiterSet.add(customDelimiter); // 커스텀 구분자 추가
+    const exprBody = expression.slice(5); // 커스텀 헤더 제거하여 숫자본체만 분리
+    const parsedNumberList = this.splitByDelimitersToNumbers(exprBody, this.delimiterSet); // 구분자로 각 숫자 분리
   }
 }
 

@@ -30,12 +30,37 @@ describe("Parser 구분자 추출", () => {
   });
   test("구분자 리스트 추가 확인", () => {
     const parser = new Parser();
-    parser.updateDelimiterSet("&");
+    parser.delimiterSet.add("&");
     expect(parser.delimiterSet).toStrictEqual(new Set([",", ":", "&"]));
-  })
+  });
   test("커스텀 구분자 추출 후, 구분자 리스트 추가 확인", () => {
     const parser = new Parser();
     parser.parseExpressionToNumberList("//&\\n1&2&3");
     expect(parser.delimiterSet).toStrictEqual(new Set([",", ":", "&"]));
-  })
+  });
+});
+
+describe("Parser 숫자 분리", () => {
+  test("기본 구분자 숫자 분리(단일)", () => {
+    const parser = new Parser();
+    const result = parser.splitByDelimitersToNumbers("1,2,3", parser.delimiterSet);
+    expect(result).toStrictEqual([1, 2, 3])
+  });
+  test("기본 구분자 숫자 분리(혼합)", () => {
+    const parser = new Parser();
+    const result = parser.splitByDelimitersToNumbers("1,2:3", parser.delimiterSet);
+    expect(result).toStrictEqual([1, 2, 3])
+  });
+  test("커스텀구분자 숫자 분리(단일)", () => {
+    const parser = new Parser();
+    parser.delimiterSet.add("(");
+    const result = parser.splitByDelimitersToNumbers("1(2(3", parser.delimiterSet);
+    expect(result).toStrictEqual([1, 2, 3])
+  });
+  test("커스텀구분자 숫자 분리(기본 구분자와 혼합)", () => {
+    const parser = new Parser();
+    parser.delimiterSet.add("(");
+    const result = parser.splitByDelimitersToNumbers("1:2(3", parser.delimiterSet);
+    expect(result).toStrictEqual([1, 2, 3])
+  });
 })
