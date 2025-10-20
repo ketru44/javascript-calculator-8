@@ -38,10 +38,13 @@ class Parser {
   }
 
   parseExpressionToNumberList(expression) {
-    const customDelimiter = this.extractCustomDelimiterStrictly(expression); // 커스텀 구분자 추출
-    if(customDelimiter) this.delimiterSet.add(customDelimiter); // 커스텀 구분자 추가
-    const exprBody = expression.slice(5); // 커스텀 헤더 제거하여 숫자본체만 분리
-    const parsedNumberList = this.splitByDelimitersToNumbers(exprBody, this.delimiterSet); // 구분자로 각 숫자 분리
+    let targetExpr = expression
+    const customDelimiter = this.extractCustomDelimiterStrictly(targetExpr); // 커스텀 구분자 추출
+    if(customDelimiter) {
+      this.delimiterSet.add(customDelimiter); // 커스텀 구분자 추가
+      targetExpr = targetExpr.slice(5); // 커스텀 헤더 제거하여 숫자본체만 분리
+    }
+    const parsedNumberList = this.splitByDelimitersToNumbers(targetExpr, this.delimiterSet); // 구분자로 각 숫자 분리
     return parsedNumberList;
   }
 }

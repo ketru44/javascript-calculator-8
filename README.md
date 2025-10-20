@@ -38,8 +38,8 @@ flowchart LR
   - [x] 커스텀 구분자가 하나임을 검증한다.(여러 번 지정 불가능)
 - [x] 연산(덧셈)
   - [x] 숫자들을 모두 더한다.
-- [ ] 출력
-  - [ ] @woowacourse/mission-utils에서 제공하는 Console API를 사용하여 출력한다.
+- [x] 출력
+  - [x] @woowacourse/mission-utils에서 제공하는 Console API를 사용하여 출력한다.
   ```
   결과 : 6
   ```
