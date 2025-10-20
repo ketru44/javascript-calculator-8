@@ -41,3 +41,12 @@ describe("문자열 계산기", () => {
     await expect(app.run()).rejects.toThrow("[ERROR]");
   });
 });
+
+describe("Parser, App 클래스 통합 테스트", () => {
+  test("입력값 파싱", async () => {
+    const inputs = "//;\\n1;2;3";
+    const app = new App();
+    const integrateResult = app.parser.parseExpressionToNumberList(inputs);
+    expect(integrateResult).toStrictEqual([1,2,3])
+  });
+});
