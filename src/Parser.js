@@ -4,11 +4,19 @@ class Parser {
     this.delimiterSet = new Set([",", ":"]);
   }
 
-  extractCustomDelimiterStrictly(expr) { // 커스텀 구분자를 추출한다(1.구분자는 하나의 문자이며, 2.하나의 종류만 존재한다.)
-    const matchedDelimiterArray = expr.match(/\/\/(.*)\\n/);
-    return matchedDelimiterArray[1];
-  }
+  extractCustomDelimiterStrictly(expr) { // 커스텀 구분자를 추출(1.구분자는 하나의 문자이며, 2.하나의 종류만 존재한다.)
+    const matchedDelimiterArray = expr.match(/\/\/(.*)\\n/); // 정규식으로 커스텀 구분자 필터
+    if(!matchedDelimiterArray) return null // 1) 사용자가 커스텀 구분자를 지정하지 않은 경우 그대로 return
 
+    const requestedDelimiter = matchedDelimiterArray[1]; // 사용자가 요청한 구분자 추출
+    // 커스텀 구분자 포맷을 가진 경우만 검증
+    this.validateCustomDelimiterExpression(expr, requestedDelimiter); 
+    return requestedDelimiter; // 2) 커스텀 구분자가 있는 경우 추출하여 해당 구분자 반환
+  }
+  validateCustomDelimiterExpression(origin, target) {
+    if(!origin.startsWith("//") || target.length != 1 || !isNaN(target))
+      throw new Error("[ERROR]");
+  }
   updateDelimiterSet(customDeli) {
     this.delimiterSet.add(customDeli);
   }
