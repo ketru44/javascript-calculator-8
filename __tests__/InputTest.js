@@ -10,7 +10,7 @@ const mockQuestions = (inputs) => {
   });
 };
 
-describe("문자열 계산기", () => {
+describe("문자열 계산기 입력", () => {
   test("입력이 들어오는 지 확인", async () => {
     const inputs = ["1,2,3"];
     mockQuestions(inputs);
@@ -26,5 +26,11 @@ describe("문자열 계산기", () => {
     const testingInput = await app.getInputUsingWoowaMissionUtils("덧셈할 문자열을 입력해 주세요.");
 
     expect(testingInput).toBe(" 1,2,3 ");
+  });
+  test("입력된 값이 비어있는지 검증", async () => {
+    const app = new App();
+    expect(() => app.checkStringIsEmpty(null)).toThrow("[ERORR] 아무것도 입력되지 않았습니다.");
+    expect(() => app.checkStringIsEmpty("  ")).toThrow("[ERORR] 아무것도 입력되지 않았습니다.");
+    expect(() => app.checkStringIsEmpty(undefined)).toThrow("[ERORR] 아무것도 입력되지 않았습니다.");
   });
 });
