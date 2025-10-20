@@ -28,9 +28,10 @@ describe("문자열 계산기 입력", () => {
     expect(testingInput).toBe(" 1,2,3 ");
   });
   test("입력된 값이 비어있는지 검증", async () => {
+    const errMsg = "[ERROR] 아무것도 입력되지 않았습니다.";
     const app = new App();
-    expect(() => app.checkStringIsEmpty(null)).toThrow("[ERORR] 아무것도 입력되지 않았습니다.");
-    expect(() => app.checkStringIsEmpty("  ")).toThrow("[ERORR] 아무것도 입력되지 않았습니다.");
-    expect(() => app.checkStringIsEmpty(undefined)).toThrow("[ERORR] 아무것도 입력되지 않았습니다.");
+    expect(() => app.checkStringIsEmpty(null, errMsg)).toThrow("[ERROR] 아무것도 입력되지 않았습니다.");
+    expect(() => app.checkStringIsEmpty("  ", errMsg)).toThrow("[ERROR] 아무것도 입력되지 않았습니다.");
+    expect(() => app.checkStringIsEmpty(undefined, errMsg)).toThrow("[ERROR] 아무것도 입력되지 않았습니다.");
   });
 });
