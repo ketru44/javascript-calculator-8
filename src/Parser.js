@@ -21,11 +21,20 @@ class Parser {
 
   splitByDelimitersToNumbers(rawNumbers, delimiterSet) { // 구분자와 섞인 숫자 뭉치를 분리
     let numberArray= [rawNumbers];
-    delimiterSet.forEach(deli => {
+    delimiterSet.forEach(deli => { // 각 구분자로 분리
       numberArray = numberArray.flatMap(el => el.split(deli));
     });
-    numberArray = numberArray.map(Number);
+    numberArray = numberArray.map(num => { // string -> num과 검증
+      num = Number(num);
+      this.validateBusinessRuleNumber(num);
+      return num;
+    });
     return numberArray;
+  }
+
+  validateBusinessRuleNumber(num) { // 0을 포함한 양의 정수
+    if(!Number.isInteger(num) || num < 0)
+      throw new Error("[ERROR]")
   }
 
   parseExpressionToNumberList(expression) {
@@ -33,6 +42,7 @@ class Parser {
     if(customDelimiter) this.delimiterSet.add(customDelimiter); // 커스텀 구분자 추가
     const exprBody = expression.slice(5); // 커스텀 헤더 제거하여 숫자본체만 분리
     const parsedNumberList = this.splitByDelimitersToNumbers(exprBody, this.delimiterSet); // 구분자로 각 숫자 분리
+    return parsedNumberList;
   }
 }
 

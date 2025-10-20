@@ -63,4 +63,10 @@ describe("Parser 숫자 분리", () => {
     const result = parser.splitByDelimitersToNumbers("1:2(3", parser.delimiterSet);
     expect(result).toStrictEqual([1, 2, 3])
   });
+  test("잘못된 숫자 검증(소수, 음수)", () => {
+    const parser = new Parser();
+    expect(() => parser.splitByDelimitersToNumbers("1:2.4:3", parser.delimiterSet)).toThrow("[ERROR]")
+    expect(() => parser.splitByDelimitersToNumbers("1:-3:3", parser.delimiterSet)).toThrow("[ERROR]")
+  });
+  
 })
