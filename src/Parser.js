@@ -16,7 +16,7 @@ class Parser {
 
   validateCustomDelimiterExpression(origin, target) {
     if(!origin.startsWith("//") || target.length != 1 || !isNaN(target))
-      throw new Error("[ERROR]");
+      throw new Error("[ERROR] 잘못된 구분자입니다.");
   }
 
   splitByDelimitersToNumbers(rawNumbers, delimiterSet) { // 구분자와 섞인 숫자 뭉치를 분리
@@ -34,7 +34,7 @@ class Parser {
 
   validateBusinessRuleNumber(num) { // 0을 포함한 양의 정수
     if(!Number.isInteger(num) || num < 0)
-      throw new Error("[ERROR]")
+      throw new Error("[ERROR] 옳지 않은 숫자입니다.(0과 양의 정수만 가능)")
   }
 
   parseExpressionToNumberList(expression) {
