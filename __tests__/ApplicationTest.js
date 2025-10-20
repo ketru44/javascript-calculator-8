@@ -49,4 +49,11 @@ describe("Parser, App 클래스 통합 테스트", () => {
     const integrateResult = app.parser.parseExpressionToNumberList(inputs);
     expect(integrateResult).toStrictEqual([1,2,3])
   });
+  test("입력값 파싱", async () => {
+    const inputs = "//;\\n1;2;3";
+    const app = new App();
+    const integrateResult = app.parser.parseExpressionToNumberList(inputs);
+    const answer = app.accumulateNumbers(integrateResult);
+    expect(answer).toStrictEqual(6)
+  });
 });
